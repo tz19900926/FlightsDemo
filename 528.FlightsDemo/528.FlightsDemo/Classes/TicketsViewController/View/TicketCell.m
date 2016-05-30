@@ -47,11 +47,12 @@
 {
     _xTicketModel = xTicketModel;
     
+    // 赋值控件数据进行展示
     self.xStartTimeLabel.text       =  xTicketModel.xStartTime;
     self.xStartPlaceLabel.text      =  xTicketModel.xStartPlace;
     self.xArriveTimeLabel.text      =  xTicketModel.xArriveTime;
     self.xArrivePlaceLabel.text     =  xTicketModel.xArrivePlace;
-    self.xPriceLabel.text           =  xTicketModel.xPrice;
+    self.xPriceLabel.text           =  [NSString stringWithFormat:@"￥%@",xTicketModel.xPrice];
     self.xCompanyAndTypeLabel.text  =  [NSString stringWithFormat:@"%@ %@",xTicketModel.xCompany,xTicketModel.xType];
 }
 

@@ -18,9 +18,7 @@
 
 #import "UserViewController.h"
 #import "TicketsViewController.h"
-
-// 网络请求工具
-#import "TTNetworkTool.h"
+#import <SVProgressHUD.h>
 
 // 字符串处理
 #import "NSString+EncodeString.h"
@@ -74,7 +72,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     // 路径
-    NSLog(@"%@",request.URL.absoluteString);
+    NSLog(@"\n%@",request.URL.absoluteString);
     
     // 读取HTML
     NSString *htmlString = [NSString stringWithContentsOfURL: request.URL encoding:NSUTF8StringEncoding error:nil];  //htmlString是html网页的地址
@@ -119,37 +117,31 @@
                               @"xPrice"      : price
                              }];
         [ticketsArray addObject: ticketModel];
+        
+        NSLog(@"\n%@,%@,%@,%@,%@,%@,%@",startTime,startPlace,arriveTime,arrivePlace,company,type,price);
     }
-    
+    // 将数据赋值给展示界面并跳转
     [self pushToTicketsViewController: ticketsArray];
 }
 
+// 跳转到展示机票界面
+- (void)pushToTicketsViewController:(NSArray *)ticketsArray
+{
+    // 拿到控制器
+    TicketsViewController *ticktsViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ticketsviewcontroller"];
+    // 赋值模型数组
+    ticktsViewController.xTicketsArray          = ticketsArray;
+    // 跳转
+    [self.navigationController pushViewController:ticktsViewController animated:YES];
+}
+
+// 读取JS数据
 - (NSString *)method:(NSString *)string count:(int)i webView:(UIWebView *)webView
 {
     NSString *method = [NSString stringWithFormat:@"document.getElementsByClassName('%@')[%d].innerHTML",string,i];
     NSString *result =  [webView stringByEvaluatingJavaScriptFromString: method];
 
     return result;
-}
-
-
-// 搜索
-- (IBAction)Search {
-    
-    // 拿到出发地和目的地
-    NSString *startFrom     =  self.xStartFrom.text.length==0? self.xStartFrom.placeholder : self.xStartFrom.text;
-    NSString *destination   =  self.xDestination.text.length==0? self.xDestination.placeholder : self.xDestination.text;
-    
-    // 单程0、往返1
-    NSString *way           =  self.xWayOfPath.selectedSegmentIndex==0? @"oneWay":@"往返";
-    
-    NSLog(@"\n%@\n出发地: %@\n目的地: %@\n出发日期: %@\n",way,startFrom,destination,self.xStartDate);
-
-    // 拼接URL
-    NSString *URL = [NSString stringWithFormat:@"http://touch.qunar.com/h5/flight/flightlist?startCity=%@&startCode=XMN&destCity=%@&destCode=&startDate=%@&backDate=&flightType=oneWay",[startFrom URLEncodedString],[destination URLEncodedString],self.xStartDate];
-    
-    // webView 加载
-    [self.xWebView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString: URL]]];
 }
 
 #pragma mark -   生命周期
@@ -173,6 +165,33 @@
 }
 
 #pragma mark -   按钮点击事件
+// 搜索
+- (IBAction)Search {
+    
+    if (self.xWayOfPath.selectedSegmentIndex!=0) {
+        [SVProgressHUD showErrorWithStatus:@"只做了单程哦亲.."];
+        return;
+    }
+    
+    // 交互遮罩
+    [SVProgressHUD show];
+    
+    // 拿到出发地和目的地
+    NSString *startFrom     =  self.xStartFrom.text.length==0? self.xStartFrom.placeholder : self.xStartFrom.text;
+    NSString *destination   =  self.xDestination.text.length==0? self.xDestination.placeholder : self.xDestination.text;
+    
+    // 单程0、往返1
+    NSString *way           =  self.xWayOfPath.selectedSegmentIndex==0? @"oneWay":@"往返";
+    
+    NSLog(@"\n%@\n出发地: %@\n目的地: %@\n出发日期: %@\n",way,startFrom,destination,self.xStartDate);
+    
+    // 拼接URL
+    NSString *URL = [NSString stringWithFormat:@"http://touch.qunar.com/h5/flight/flightlist?startCity=%@&startCode=XMN&destCity=%@&destCode=&startDate=%@&backDate=&flightType=oneWay",[startFrom URLEncodedString],[destination URLEncodedString],self.xStartDate];
+    
+    // webView 加载
+    [self.xWebView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString: URL]]];
+}
+
 // 交换地点
 - (IBAction)PlaceChange {
     // 拿到出发地和到达地
@@ -205,17 +224,6 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.xDatePicker.frame  = CGRectMake(dpX, dpY, dpW, dpH);
     }];
-}
-
-// 跳转到展示机票界面
-- (void)pushToTicketsViewController:(NSArray *)ticketsArray
-{
-    // 拿到控制器
-    TicketsViewController *ticktsViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ticketsviewcontroller"];
-    // 赋值模型数组
-    ticktsViewController.xTicketsArray          = ticketsArray;
-    // 跳转
-    [self.navigationController pushViewController:ticktsViewController animated:YES];
 }
 
 #pragma mark -   监听日期改变事件

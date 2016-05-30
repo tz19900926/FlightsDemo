@@ -15,7 +15,6 @@
 		627FAF1C1CF8A59500F9DEAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 627FAF1A1CF8A59500F9DEAF /* LaunchScreen.storyboard */; };
 		627FAF271CF8A59500F9DEAF /* _28_FlightsDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 627FAF261CF8A59500F9DEAF /* _28_FlightsDemoTests.m */; };
 		627FAF321CF8A59500F9DEAF /* _28_FlightsDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 627FAF311CF8A59500F9DEAF /* _28_FlightsDemoUITests.m */; };
-		628C9E4E1CF95E4A007C40A3 /* TTNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 628C9E4D1CF95E4A007C40A3 /* TTNetworkTool.m */; };
 		62A890C81CF9346900FCED11 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 62A890C51CF9346900FCED11 /* AppDelegate.m */; };
 		62A890C91CF9346900FCED11 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62A890C61CF9346900FCED11 /* Info.plist */; };
 		62A890CA1CF9346900FCED11 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 62A890C71CF9346900FCED11 /* main.m */; };
@@ -58,8 +57,6 @@
 		627FAF2D1CF8A59500F9DEAF /* 528.FlightsDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 528.FlightsDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		627FAF311CF8A59500F9DEAF /* _28_FlightsDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _28_FlightsDemoUITests.m; sourceTree = "<group>"; };
 		627FAF331CF8A59500F9DEAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		628C9E4C1CF95E4A007C40A3 /* TTNetworkTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkTool.h; sourceTree = "<group>"; };
-		628C9E4D1CF95E4A007C40A3 /* TTNetworkTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkTool.m; sourceTree = "<group>"; };
 		62A890C41CF9346900FCED11 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		62A890C51CF9346900FCED11 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		62A890C61CF9346900FCED11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -177,8 +174,6 @@
 		628C9E4B1CF95E41007C40A3 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				628C9E4C1CF95E4A007C40A3 /* TTNetworkTool.h */,
-				628C9E4D1CF95E4A007C40A3 /* TTNetworkTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -486,7 +481,6 @@
 				62A890CA1CF9346900FCED11 /* main.m in Sources */,
 				6274B8C81CFC45EE00BC7E8B /* TicketModel.m in Sources */,
 				62A890C81CF9346900FCED11 /* AppDelegate.m in Sources */,
-				628C9E4E1CF95E4A007C40A3 /* TTNetworkTool.m in Sources */,
 				6274B8CB1CFC470300BC7E8B /* TicketCell.m in Sources */,
 				62A890D71CF937A700FCED11 /* UserView.m in Sources */,
 				62FE0B441CFBE42600279A40 /* NSString+Today.m in Sources */,
