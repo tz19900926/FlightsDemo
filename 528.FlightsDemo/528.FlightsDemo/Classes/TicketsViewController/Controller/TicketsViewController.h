@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class TicketModel;
+
 @interface TicketsViewController : UITableViewController
+
+/**
+ * 机票数据模型数组
+ */
+@property (nonatomic,strong) NSArray        *xTicketsArray;
 
 @end

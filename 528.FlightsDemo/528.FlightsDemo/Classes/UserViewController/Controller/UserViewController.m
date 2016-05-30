@@ -26,44 +26,51 @@
 #import "NSString+EncodeString.h"
 #import "NSString+Today.h"
 
+// 机票模型
+#import "TicketModel.h"
+
 #define URLObjBase [NSURL URLWithString:@"http://touch.qunar.com/h5/flight/flightlist"]
 
 @interface UserViewController () <UIWebViewDelegate>
 /**
  * 单程/往返
  */
-@property (weak, nonatomic) IBOutlet UISegmentedControl *xWayOfPath;
+@property (weak, nonatomic) IBOutlet UISegmentedControl  * xWayOfPath;
 
 /**
  * 出发地
  */
-@property (weak, nonatomic) IBOutlet UITextField *xStartFrom;
+@property (weak, nonatomic) IBOutlet UITextField         * xStartFrom;
 
 /**
  * 到达城市
  */
-@property (weak, nonatomic) IBOutlet UITextField *xDestination;
+@property (weak, nonatomic) IBOutlet UITextField         * xDestination;
 
 /**
  * 出发日期
  */
-@property (nonatomic,copy) NSString *xStartDate;
-// 出发日期按钮
-@property (weak, nonatomic) IBOutlet UIButton *xStartDateButton;
+@property (nonatomic,copy) NSString                      * xStartDate;
+
+/**
+ * 出发日期按钮
+ */
+@property (weak, nonatomic) IBOutlet UIButton            * xStartDateButton;
 
 /**
  * 日期选择器
  */
-@property (nonatomic,strong) UIDatePicker *xDatePicker;
+@property (nonatomic,strong) UIDatePicker                * xDatePicker;
 
-// 网络工具
-@property (nonatomic,weak) TTNetworkTool *xNetworkTool;
-// webView
-@property (nonatomic,strong) UIWebView *xWebView;
+/**
+ * webView
+ */
+@property (nonatomic,strong) UIWebView                   * xWebView;
 @end
 
 @implementation UserViewController
-// webView 加载回调
+
+#pragma mark -   WebView Delegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     // 路径
@@ -71,11 +78,60 @@
     
     // 读取HTML
     NSString *htmlString = [NSString stringWithContentsOfURL: request.URL encoding:NSUTF8StringEncoding error:nil];  //htmlString是html网页的地址
-
-    NSLog(@"%@",htmlString);
     
     return YES;
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+    NSMutableArray  * ticketsArray = [NSMutableArray array];
+    // 获取10条数据
+    for (int i =0 ; i<9; i++) {
+
+        // 出发时间
+        NSString *startTime = [self method:@"from-time time-font" count:i webView: webView];
+        
+        // 出发地点
+        NSString *startPlace = [self method:@"from-place ellipsis" count:i webView: webView];
+        
+        // 降落时间
+        NSString *arriveTime = [self method:@"to-time time-font" count:i webView: webView];
+        
+        // 降落地点
+        NSString *arrivePlace = [self method:@"to-place ellipsis" count:i webView:webView];
+        
+        // 航空公司
+        NSString *company = [self method:@"company1 ellipsis" count:i webView: webView];
+        // 型号
+        NSString *type = [self method:@"company2 ellipsis" count:i webView: webView];
+        
+        // 价格  // !*? ddv1adbm5dscv7dq 价格应该是做了处理，获取不到真实数据
+        NSString *price = [self method:@"price" count:i webView: webView];
+        
+        // 创建模型
+        TicketModel     * ticketModel =  [[TicketModel alloc] initWithDict: @{
+                              @"xStartTime"  : startTime,
+                              @"xStartPlace" : startPlace,
+                              @"xArriveTime" : arriveTime,
+                              @"xArrivePlace": arrivePlace,
+                              @"xCompany"    : company,
+                              @"xType"       : type,
+                              @"xPrice"      : price
+                             }];
+        [ticketsArray addObject: ticketModel];
+    }
+    
+    [self pushToTicketsViewController: ticketsArray];
+}
+
+- (NSString *)method:(NSString *)string count:(int)i webView:(UIWebView *)webView
+{
+    NSString *method = [NSString stringWithFormat:@"document.getElementsByClassName('%@')[%d].innerHTML",string,i];
+    NSString *result =  [webView stringByEvaluatingJavaScriptFromString: method];
+
+    return result;
+}
+
 
 // 搜索
 - (IBAction)Search {
@@ -94,22 +150,6 @@
     
     // webView 加载
     [self.xWebView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString: URL]]];
-    
-    
-//    AFHTTPResponseSerializer *res = [[AFHTTPResponseSerializer alloc] init];
-//    res.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html",nil];
-//    
-//    [AFHTTPSessionManager manager].responseSerializer = res;
-//
-//    
-//    [[AFHTTPSessionManager manager] GET:URL parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSLog(@"res == %@",responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"error == %@",error);
-//    }];
-    
 }
 
 #pragma mark -   生命周期
@@ -136,7 +176,18 @@
 // 交换地点
 - (IBAction)PlaceChange {
     // 拿到出发地和到达地
-    // 交换文本
+    if (self.xStartFrom.text.length != 0 && self.xDestination.text.length != 0) {
+    
+        // 交换文本
+        NSString * string = self.xStartFrom.text;
+        self.xStartFrom.text = self.xDestination.text;
+        self.xDestination.text = string;
+    }else
+    {
+        NSString * string = self.xStartFrom.placeholder;
+        self.xStartFrom.placeholder = self.xDestination.placeholder;
+        self.xDestination.placeholder = string;
+    }
 }
 
 // 弹出选择日期
@@ -157,10 +208,13 @@
 }
 
 // 跳转到展示机票界面
-- (void)pushToTicketsViewController
+- (void)pushToTicketsViewController:(NSArray *)ticketsArray
 {
+    // 拿到控制器
     TicketsViewController *ticktsViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ticketsviewcontroller"];
-    
+    // 赋值模型数组
+    ticktsViewController.xTicketsArray          = ticketsArray;
+    // 跳转
     [self.navigationController pushViewController:ticktsViewController animated:YES];
 }
 

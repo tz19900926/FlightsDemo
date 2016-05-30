@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		17C6CA4EEE5702CFA32E9D5B /* libPods-528.FlightsDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA95711204140402AA136FA /* libPods-528.FlightsDemo.a */; };
+		6274B8C81CFC45EE00BC7E8B /* TicketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6274B8C71CFC45EE00BC7E8B /* TicketModel.m */; };
+		6274B8CB1CFC470300BC7E8B /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6274B8CA1CFC470300BC7E8B /* TicketCell.m */; };
 		627FAF171CF8A59500F9DEAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 627FAF151CF8A59500F9DEAF /* Main.storyboard */; };
 		627FAF191CF8A59500F9DEAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 627FAF181CF8A59500F9DEAF /* Assets.xcassets */; };
 		627FAF1C1CF8A59500F9DEAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 627FAF1A1CF8A59500F9DEAF /* LaunchScreen.storyboard */; };
@@ -42,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6274B8C61CFC45EE00BC7E8B /* TicketModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketModel.h; sourceTree = "<group>"; };
+		6274B8C71CFC45EE00BC7E8B /* TicketModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketModel.m; sourceTree = "<group>"; };
+		6274B8C91CFC470300BC7E8B /* TicketCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketCell.h; sourceTree = "<group>"; };
+		6274B8CA1CFC470300BC7E8B /* TicketCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketCell.m; sourceTree = "<group>"; };
 		627FAF091CF8A59400F9DEAF /* 528.FlightsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 528.FlightsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		627FAF161CF8A59500F9DEAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		627FAF181CF8A59500F9DEAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -258,6 +264,8 @@
 		62A890DA1CF9584600FCED11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6274B8C61CFC45EE00BC7E8B /* TicketModel.h */,
+				6274B8C71CFC45EE00BC7E8B /* TicketModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -265,6 +273,8 @@
 		62A890DB1CF9584600FCED11 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6274B8C91CFC470300BC7E8B /* TicketCell.h */,
+				6274B8CA1CFC470300BC7E8B /* TicketCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -474,8 +484,10 @@
 				62A890D21CF9365400FCED11 /* UserViewController.m in Sources */,
 				62A890DE1CF958D900FCED11 /* TicketsViewController.m in Sources */,
 				62A890CA1CF9346900FCED11 /* main.m in Sources */,
+				6274B8C81CFC45EE00BC7E8B /* TicketModel.m in Sources */,
 				62A890C81CF9346900FCED11 /* AppDelegate.m in Sources */,
 				628C9E4E1CF95E4A007C40A3 /* TTNetworkTool.m in Sources */,
+				6274B8CB1CFC470300BC7E8B /* TicketCell.m in Sources */,
 				62A890D71CF937A700FCED11 /* UserView.m in Sources */,
 				62FE0B441CFBE42600279A40 /* NSString+Today.m in Sources */,
 			);
